@@ -52,7 +52,7 @@ def read_job_po
 end
 
 def ipd_year(workOrder)
-	workOrder[3,2]
+	"20#{workOrder[3,2]}"
 end
 
 def nav_to_start_folder(workOrder)

@@ -2,10 +2,6 @@ require 'csv'
 require './pallet_flag_generator.rb'
 require 'ruby-progressbar'
 
-def ipd_month_code(workOrder)
-  workOrder[0, 7]
-end
-
 def next_work_order_number(workOrder)
   workOrder[-3, 3] = next_work_order_seq(workOrder)
   workOrder
@@ -55,9 +51,13 @@ def read_job_po
   gets.chomp
 end
 
+def ipd_year(workOrder)
+	workOrder[3,2]
+end
+
 def nav_to_start_folder(workOrder)
   Dir.chdir '..'
-  Dir.chdir ipd_month_code(workOrder)
+  Dir.chdir ipd_year(workOrder)
   x = Dir.glob("#{workOrder}*").at(0)
   Dir.chdir x
   x
@@ -65,7 +65,7 @@ end
 
 def find_input_csv
   arr = Dir.glob('*.csv')
-  arr.delete_if { |e| /880\d\d\d\d-\d\d\d ?(for import)?/ =~ e }
+  arr.delete_if { |e| /880\d\d-\d\d\d ?(for import)?/ =~ e }
   arr.at(0)
 end
 
